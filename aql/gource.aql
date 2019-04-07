@@ -1,0 +1,39 @@
+FOR submission IN submissions
+    //Get user info for this submission
+    LET user_info = FIRST(
+        (
+            FOR user IN users
+                FILTER submission.user_id == user.id
+                RETURN user
+        )
+    )
+
+    //Get challenge info for this submission
+    LET challenge_info = FIRST(
+        (
+            FOR challenge IN challenges
+                FILTER submission.challenge_id == challenge.id
+                RETURN challenge
+        )
+    )
+
+    //Create a path [<Category>/<Name>]
+    LET path = CONCAT(
+        "/", challenge_info.category, "/", challenge_info.name
+    )
+
+    //Represent result with a colour
+    LET colour = submission.type == "correct" ? "28ff02" : "ff1808"
+
+    // Unix timestamp
+    LET timestamp = DATE_TIMESTAMP(submission.date) / 1000
+
+    //Sort by date oldest to newest
+    SORT submission.date ASC
+    RETURN {
+        "timestamp": timestamp,
+        "username": user_info.name,
+        "type": "M",
+        "path": path,
+        "colour":  colour
+    }

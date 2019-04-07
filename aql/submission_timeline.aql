@@ -1,0 +1,29 @@
+FOR submission IN submissions
+    //Get user info for submission
+    LET user_info = FIRST(
+        (
+            FOR user IN users
+                FILTER submission.user_id == user.id
+                RETURN user
+        )
+    )
+    //Get challenge info for submission
+    LET challenge_info = FIRST(
+        (
+            FOR challenge IN challenges
+                FILTER submission.challenge_id == challenge.id
+                RETURN challenge
+        )
+    )
+
+    //Sort newest to oldest
+    SORT submission.date DESC
+    RETURN {
+        "TimeStamp": submission.date,
+        "User Name": user_info.name,
+        "IP": submission.ip,
+        "Challenge Name": challenge_info.name,
+        "Challenge Category": challenge_info.category,
+        "Result": submission.type,
+        "Challenge Value": challenge_info.value
+    }
