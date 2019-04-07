@@ -27,3 +27,7 @@ optional arguments:
   --port PORT          The ArangoDB port.
   --database DATABASE  The ArangoDB database to use.
 ```
+
+## AQL Examples
+See [aql_queries](https://github.com/forensicmatt/CtfdLogs2Arango/blob/master/aql/aql_queries.md)
+page.
